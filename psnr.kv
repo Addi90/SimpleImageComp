@@ -1,0 +1,23 @@
+#:kivy  1.0
+
+
+<AppLayout>:
+    cols:1
+
+    GridLayout:
+        cols:2
+        FileDropArea:
+            text:'Drop original image here'
+        FileDropArea:
+            text:'Drop comparison image here'
+
+    Label:
+        text:'Hello World'
+        id: 'hello_label'
+        font_size: 20
+
+    Button:
+        id: 'enter_btn'
+        text:'Enter'
+        font_size: 20
+        on_press:root.enterbtn_callback(app)
