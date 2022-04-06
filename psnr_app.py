@@ -1,10 +1,14 @@
+from sys import orig_argv
 from kivy.app import App
+from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
-from kivy.uix.image import Image
-from kivy.uix.button import Button
-from kivy.uix.textinput import TextInput
+
+import os.path
+import psnr_funs
+
+orig_fpath =''
+comp_fpath =''
 
 class FileDropArea(Label):
     # Add every FileDropArea to a list in main app, so that main app can call 
@@ -20,18 +24,25 @@ class FileDropArea(Label):
 
     def on_filedrop(self,widget,file_path):
         if self.collide_point(*Window.mouse_pos):
-            self.text = str(file_path)
-            print(file_path)
+            app = App.get_running_app()
+            fpath = os.path.abspath(file_path)
+            self.text = fpath.decode('utf-8')
+            
+            if(self.id == 'orig_fda'):
+                orig_fpath = self.text
+            elif(self.id == 'comp_fda'):
+                comp_fpath = self.text
+
+
 
 
 class AppLayout(GridLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
     
-    def print_hello_world(self):
-        print("Hello world")   
-    
-    def enterbtn_callback(self,instance):
+    def on_enterbtn_pressed(self,instance):
+        app = App.get_running_app()
+        psnr_funs.calc_psnr(orig_fpath,comp_fpath)
         print("Clicked")
 
 
@@ -41,7 +52,6 @@ class PSNRApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.file_drops =[]
-
 
     def build(self):
 
@@ -53,7 +63,9 @@ class PSNRApp(App):
     def handle_filedrop(self,*args):
         for f in self.file_drops:
             f(*args)
-        pass
+        
+    def get_img_paths(self):
+        return self.orig_path,self.comp_path
         
 
 
