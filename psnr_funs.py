@@ -1,9 +1,16 @@
 import cv2
+import os.path
 
 
 
 
 def calc_psnr(orig_img_path :str,comp_img_path:str):
-    orig_img = cv2.imread(orig_img_path)
-    comp_img = cv2.imread(comp_img_path)
-    return cv2.PSNR(orig_img,comp_img)
+
+    if(os.path.exists(orig_img_path) and os.path.exists(comp_img_path)):
+        orig_img = cv2.imread(orig_img_path)
+        comp_img = cv2.imread(comp_img_path)
+        #TODO: Compare x,y size of images
+
+        return cv2.PSNR(orig_img,comp_img)
+    else: 
+        return -1

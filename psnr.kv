@@ -6,22 +6,24 @@
 
     GridLayout:
         cols:2
-
-        FileDropArea:
-            text:'Drop original image here'
-            id:'orig_fda'
-
-        FileDropArea:
-            text:'Drop comparison image here'
-            id:'comp_fda'
+        GridLayout:
+            cols:1
+            FileDropArea:
+                text:'Drop original image here'
+                id:orig_fda
+        GridLayout:
+            cols:1
+            FileDropArea:
+                text:'Drop comparison image here'
+                id:comp_fda
 
     Label:
         text:'Peak Signal-Noise Ratio (PSNR): -'
-        id: 'hello_lb'
+        id: hello_lb
         font_size: 20
 
     Button:
-        id: 'enter_btn'
-        text:'Calculate PSNR'
+        id: enter_btn
+        text:'calculate PSNR'
         font_size: 20
         on_press:root.on_enterbtn_pressed(app)
