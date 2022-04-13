@@ -6,7 +6,7 @@ from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
 
 import os.path
-import psnr_funs
+import imcomp_funs
 
 fpaths = []
 
@@ -40,12 +40,18 @@ class AppLayout(GridLayout):
     
     def on_enterbtn_pressed(self,instance):
         app = App.get_running_app()
-        psnr = psnr_funs.calc_psnr(self.ids['orig_fda'].text,self.ids['comp_fda'].text)
+        psnr = imcomp_funs.calc_psnr(self.ids['orig_fda'].text,self.ids['comp_fda'].text)
+        ssim = imcomp_funs.calc_ssim(self.ids['orig_fda'].text,self.ids['comp_fda'].text)
         print(psnr)
         if(psnr != -1):
-            self.ids['hello_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ' + str(psnr) + ' dB'
+            self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ' + str(psnr) + ' dB'
         else:
-            self.ids['hello_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ERROR'
+            self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ERROR'
+
+        if(ssim != -1):
+            self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ' + str(ssim)
+        else:
+            self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ERROR'
 
 
 class PSNRApp(App):
