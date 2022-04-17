@@ -40,18 +40,26 @@ class AppLayout(GridLayout):
     
     def on_enterbtn_pressed(self,instance):
         app = App.get_running_app()
-        psnr = imcomp_funs.calc_psnr(self.ids['orig_fda'].text,self.ids['comp_fda'].text)
-        ssim = imcomp_funs.calc_ssim(self.ids['orig_fda'].text,self.ids['comp_fda'].text)
+        psnr = imcomp_funs.calc_psnr(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_psnr_lb)
+        #self.set_psnr_lb(psnr)
+
+        ssim = imcomp_funs.calc_ssim(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_ssim_lb)
+        #self.set_ssim_lb(ssim)
+
+    def set_psnr_lb(self, psnr):
         print(psnr)
         if(psnr != -1):
             self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ' + str(psnr) + ' dB'
         else:
             self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ERROR'
 
+    def set_ssim_lb(self, ssim):
+        print(ssim)
         if(ssim != -1):
             self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ' + str(ssim)
         else:
             self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ERROR'
+        
 
 
 class PSNRApp(App):
