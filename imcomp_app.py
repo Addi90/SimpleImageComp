@@ -5,6 +5,7 @@ from kivy.uix.label import Label
 from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
 
+import threading
 import os.path
 import imcomp_funs
 
@@ -39,13 +40,19 @@ class AppLayout(GridLayout):
         super().__init__(**kwargs)
     
     def on_enterbtn_pressed(self,instance):
+        self.background_color=(1,0,0,1)
         app = App.get_running_app()
-        psnr = imcomp_funs.calc_psnr(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_psnr_lb)
-        #self.set_psnr_lb(psnr)
-
-        ssim = imcomp_funs.calc_ssim(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_ssim_lb)
-        #self.set_ssim_lb(ssim)
-
+        psnr_thread = threading.Thread(
+            target=imcomp_funs.calc_psnr,
+            args=(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_psnr_lb)
+            )
+        ssim_thread = threading.Thread(
+            target=imcomp_funs.calc_ssim, 
+            args=(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_ssim_lb)
+            )
+        psnr_thread.start()
+        ssim_thread.start()
+     
     def set_psnr_lb(self, psnr):
         print(psnr)
         if(psnr != -1):
