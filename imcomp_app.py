@@ -53,17 +53,17 @@ class AppLayout(GridLayout):
         psnr_thread.start()
         ssim_thread.start()
      
-    def set_psnr_lb(self, psnr):
-        print(psnr)
-        if(psnr != -1):
-            self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ' + str(psnr) + ' dB'
+    def set_psnr_lb(self, psnr_txt):
+        print(psnr_txt)
+        if(psnr_txt != -1):
+            self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ' + str(psnr_txt)
         else:
             self.ids['psnr_lb'].text = 'Peak Signal-Noise Ratio (PSNR): ERROR'
 
-    def set_ssim_lb(self, ssim):
-        print(ssim)
-        if(ssim != -1):
-            self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ' + str(ssim)
+    def set_ssim_lb(self, ssim_txt):
+        print(ssim_txt)
+        if(ssim_txt != -1):
+            self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ' + str(ssim_txt)
         else:
             self.ids['ssim_lb'].text = 'Structural Similarity Index (SSIM): ERROR'
         
