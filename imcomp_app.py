@@ -2,6 +2,7 @@ from sys import orig_argv
 from kivy.app import App
 from kivy.uix.image import Image
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
 
@@ -30,9 +31,10 @@ class FileDropArea(Label):
             fpath = os.path.abspath(file_path)
             self.text = fpath.decode('utf-8')
             fpaths.append(self.text)
+
             img = Image(source= self.text)
             self.parent.add_widget(img)
-
+            
 
 
 class AppLayout(GridLayout):
@@ -42,6 +44,11 @@ class AppLayout(GridLayout):
     def on_enterbtn_pressed(self,instance):
         self.background_color=(1,0,0,1)
         app = App.get_running_app()
+
+        mse_thread = threading.Thread(
+            target=imcomp_funs.calc_mse,
+            args=(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_mse_lb)
+            )
         psnr_thread = threading.Thread(
             target=imcomp_funs.calc_psnr,
             args=(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_psnr_lb)
@@ -50,8 +57,17 @@ class AppLayout(GridLayout):
             target=imcomp_funs.calc_ssim, 
             args=(self.ids['orig_fda'].text,self.ids['comp_fda'].text,self.set_ssim_lb)
             )
+
+        mse_thread.start()
         psnr_thread.start()
         ssim_thread.start()
+
+    def set_mse_lb(self, mse_txt):
+        print(mse_txt)
+        if(mse_txt != -1):
+            self.ids['mse_lb'].text = 'Mean Squared Error (MSE): ' + str(mse_txt)
+        else:
+            self.ids['mse_lb'].text = 'Mean Squared Error (MSE): ERROR'
      
     def set_psnr_lb(self, psnr_txt):
         print(psnr_txt)

@@ -7,29 +7,37 @@
 
     GridLayout:
         cols:2
-        GridLayout:
-            cols:1
+        BoxLayout:
+            orientation:'vertical'
             FileDropArea:
                 text:'Drop original image here'
                 id:orig_fda
-        GridLayout:
-            cols:1
+        BoxLayout:
+            orientation:'vertical'
             FileDropArea:
                 text:'Drop comparison image here'
                 id:comp_fda
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            text:'Mean Squared Error (MSE): -'
+            id: mse_lb
+            font_size: 20
 
-    Label:
-        text:'Peak Signal-Noise Ratio (PSNR): -'
-        id: psnr_lb
-        font_size: 20
+        Label:
+            text:'Peak Signal-Noise Ratio (PSNR): -'
+            id: psnr_lb
+            font_size: 20
 
-    Label:
-        text:'Structural Similarity Index (SSIM): -'
-        id: ssim_lb
-        font_size: 20
+        Label:
+            text:'Structural Similarity Index (SSIM): -'
+            id: ssim_lb
+            font_size: 20
 
     Button:
         id: enter_btn
         text:'calculate PSNR'
         font_size: 20
         on_press:root.on_enterbtn_pressed(app)
+        size_hint:(.7,.5)
+
