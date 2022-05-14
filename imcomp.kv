@@ -7,13 +7,13 @@
 
     GridLayout:
         cols:2
-        BoxLayout:
-            orientation:'vertical'
+        GridLayout:
+            cols:1
             FileDropArea:
                 text:'Drop original image here'
                 id:orig_fda
-        BoxLayout:
-            orientation:'vertical'
+        GridLayout:
+            cols:1
             FileDropArea:
                 text:'Drop comparison image here'
                 id:comp_fda

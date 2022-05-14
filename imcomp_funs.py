@@ -1,8 +1,10 @@
 import cv2
 import imutils
 import os.path
+import numpy as np
 from skimage import metrics
-
+from skimage.color import rgb2gray
+from PIL import Image
 
 def calc_psnr(orig_img_path :str,comp_img_path:str,callback_func):
 
@@ -29,7 +31,11 @@ def calc_ssim(orig_img_path :str,comp_img_path:str,callback_func):
         orig_img_gray = cv2.cvtColor(orig_img, cv2.COLOR_BGR2GRAY)
         comp_img_gray = cv2.cvtColor(comp_img, cv2.COLOR_BGR2GRAY)
 
-        score = metrics.structural_similarity(orig_img_gray,comp_img_gray,full=False)
+        score, full = metrics.structural_similarity(orig_img_gray,comp_img_gray,full=True, data_range=orig_img_gray.max() - orig_img_gray.min())
+
+        img = Image.fromarray(full.astype(np.uint32))
+        img.save('/home/adrian/full.png')
+        img.show()
         print(f'Thread SSIM: {round(score,10):.10f}')
         callback_func(f'{round(score,10):.10f}')
     else: 
